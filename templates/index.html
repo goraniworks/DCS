@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Data Display</title>
+    <style>
+        #dataDisplay {
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Real-Time Data Viewer</h1>
+    <div id="dataDisplay">Waiting for data...</div>
+
+    <!-- Load Socket.IO -->
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+    <script>
+        var socket = io();
+
+        socket.on('connect', function() {
+            console.log('Connected to the server.');
+        });
+
+        socket.on('DCS_data', function(msg) {
+            document.getElementById('dataDisplay').textContent = msg.data;
+        });
+    </script>
+</body>
+</html>

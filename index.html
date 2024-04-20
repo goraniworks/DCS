@@ -1,0 +1,171 @@
+<!-- <!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket 테스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #messages {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            min-height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebSocket을 통한 서버 데이터 수신</h1>
+    <div id="messages"></div>
+    <script>
+        const messages = document.getElementById('messages');
+
+        // WebSocket 서버의 URL
+        const ws = new WebSocket('ws://localhost:15348');
+
+        ws.onopen = function() {
+            console.log('서버에 연결되었습니다.');
+            messages.textContent = '서버에 연결되었습니다...';
+        };
+
+        ws.onmessage = function(event) {
+            console.log('서버로부터 메시지 수신:', event.data);
+            const message = document.createElement('div');
+            message.textContent = event.data;
+            messages.appendChild(message);
+        };
+
+        ws.onerror = function(error) {
+            console.log('WebSocket 오류:', error);
+            messages.textContent = 'WebSocket 연결 오류 발생!';
+        };
+
+        ws.onclose = function() {
+            console.log('서버와의 연결이 종료되었습니다.');
+            messages.textContent += '\n서버와의 연결이 종료되었습니다.';
+        };
+    </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket 테스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #messages {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            min-height: 50px;
+        }
+        .instrument {
+            display: inline-block;
+            margin: 20px;
+        }
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid black;
+        }
+        .reading {
+            margin-top: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebSocket을 통한 서버 데이터 수신</h1>
+    <div id="messages"></div>
+    <div class="instrument" id="speedometer">
+        <div class="triangle"></div>
+        <div class="reading" id="speed">0.00</div>
+        <div class="label">속도 (IAS)</div>
+    </div>
+    <div class="instrument" id="altimeter">
+        <div class="triangle"></div>
+        <div class="reading" id="altitude">0.00</div>
+        <div class="label">고도 (Altitude Above Sea Level)</div>
+    </div>
+    <div class="instrument" id="attitudeIndicator">
+        <div class="triangle"></div>
+        <div class="reading" id="pitch">0.00</div>
+        <div class="label">Pitch</div>
+    </div>
+    <div class="instrument" id="bankIndicator">
+        <div class="triangle"></div>
+        <div class="reading" id="bank">0.00</div>
+        <div class="label">Bank</div>
+    </div>
+    <div class="instrument" id="yawIndicator">
+        <div class="triangle"></div>
+        <div class="reading" id="yaw">0.00</div>
+        <div class="label">Yaw</div>
+    </div>
+
+    <script>
+        const messages = document.getElementById('messages');
+        const speedometer = document.getElementById('speedometer');
+        const altimeter = document.getElementById('altimeter');
+        const attitudeIndicator = document.getElementById('attitudeIndicator');
+        const bankIndicator = document.getElementById('bankIndicator');
+        const yawIndicator = document.getElementById('yawIndicator');
+
+        // WebSocket 서버의 URL
+        const ws = new WebSocket('ws://localhost:15348');
+
+        ws.onopen = function() {
+            console.log('서버에 연결되었습니다.');
+            messages.textContent = '서버에 연결되었습니다...';
+        };
+
+        ws.onmessage = function(event) {
+            console.log('서버로부터 메시지 수신:', event.data);
+            const data = event.data.split(', ');
+
+            // Parsing data
+            const speed = parseFloat(data[0].split('=')[1]);
+            const altitude = parseFloat(data[3].split('=')[1]);
+            const pitch = parseFloat(data[4].split('=')[1]);
+            const bank = parseFloat(data[5].split('=')[1]);
+            const yaw = parseFloat(data[6].split('=')[1]);
+
+            // Update instrument readings
+            document.getElementById('speed').textContent = speed.toFixed(2);
+            document.getElementById('altitude').textContent = altitude.toFixed(2);
+            document.getElementById('pitch').textContent = pitch.toFixed(2);
+            document.getElementById('bank').textContent = bank.toFixed(2);
+            document.getElementById('yaw').textContent = yaw.toFixed(2);
+
+            // Rotate triangles to represent pitch, bank, and yaw
+            attitudeIndicator.style.transform = `rotate(${pitch * 10}deg)`;
+            bankIndicator.style.transform = `rotate(${bank * 10}deg)`;
+            yawIndicator.style.transform = `rotate(${yaw * 10}deg)`;
+        };
+
+        ws.onerror = function(error) {
+            console.log('WebSocket 오류:', error);
+            messages.textContent = 'WebSocket 연결 오류 발생!';
+        };
+
+        ws.onclose = function() {
+            console.log('서버와의 연결이 종료되었습니다.');
+            messages.textContent += '\n서버와의 연결이 종료되었습니다.';
+        };
+    </script>
+</body>
+</html>
