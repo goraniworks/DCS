@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket 테스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #panel {
+            display: flex;
+            justify-content: center; /* Center the single gauge */
+            margin-top: 20px;
+        }
+        .gauge-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+        }
+        .gauge {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2; /* Ensure the SVG is above the image */
+            transform-origin: center; /* Set the rotation center to the middle of the SVG */
+        }
+        #ias-info {
+            text-align: center;
+            margin-top: 110px; /* Adjust as needed */
+        }
+        #messages {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 50px;
+        }
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Place image below the SVG */
+        }
+    </style>
+</head>
+<body>
+    <h1>WebSocket을 통한 서버 데이터 수신</h1>
+    <div id="panel">
+        <div class="gauge-container">
+            <img src="circle.png" class="background-image" alt="Background Image">
+            <!-- Adjust the polygon points to ensure it's centered correctly -->
+            <svg id="ias" class="gauge" viewBox="0 0 100 100"><polygon points="50,30 30,70 70,70" fill="red"></polygon></svg>
+            <div id="ias-info" class="info"></div>
+        </div>
+    </div>
+    <div id="messages"></div>
+    <script>
+        const messages = document.getElementById('messages');
+        const ws = new WebSocket('ws://localhost:15348');
+
+        ws.onopen = function() {
+            console.log('서버에 연결되었습니다.');
+            messages.textContent = '서버에 연결되었습니다...';
+        };
+
+        ws.onmessage = function(event) {
+            console.log('서버로부터 메시지 수신:', event.data);
+            const data = event.data;
+            const parts = data.split(', ').map(part => {
+                const pair = part.split(' = ');
+                return {key: pair[0], value: parseFloat(pair[1])};
+            });
+            const dataMap = Object.fromEntries(parts.map(part => [part.key, part.value]));
+
+            updateGauges(dataMap);
+        };
+
+        ws.onerror = function(error) {
+            console.log('WebSocket 오류:', error);
+            messages.textContent = 'WebSocket 연결 오류 발생!';
+        };
+
+        ws.onclose = function() {
+            console.log('서버와의 연결이 종료되었습니다.');
+            messages.textContent += '\\n서버와의 연결이 종료되었습니다.';
+        };
+
+        function updateGauges(data) {
+            const iasAngle = (30/28) * data.IAS; // Calculate the angle based on IAS value
+            document.getElementById('ias').style.transform = `rotate(${iasAngle}deg)`; // Rotate without translation
+            document.getElementById('ias-info').textContent = `IAS: ${data.IAS}, 각도: ${iasAngle.toFixed(2)}°`;
+        }
+    </script>
+</body>
+</html>
