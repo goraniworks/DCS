@@ -23,11 +23,11 @@
 이 프로젝트는 DCS (Digital Combat Simulator) 게임에서 발생하는 실시간 데이터를 웹 페이지에 동적으로 표시하는 방법을 설명합니다. DCS는 실시간 전투기 시뮬레이션 게임이며, 게임 내의 다양한 비행 데이터를 외부 애플리케이션으로 전송할 수 있습니다. 이를 위해 Lua 스크립트를 사용하여 데이터를 수집하고, TCP/IP를 통해 Node.js 기반의 서버로 전송합니다. 이 서버는 WebSocket 프로토콜을 이용하여 웹 브라우저에 데이터를 전달하고, 브라우저는 이 데이터를 사용하여 사용자에게 시각적인 피드백을 제공합니다.
 **이 프로젝트는 chat-GPT4에 의존해서 이루어 졌으며, 코드, 문서 작성의 90% 는 AI가 작성하였습니다.**
 
+#### [Table of Contents](#table-of-contents)
 This project explains how to dynamically display real-time data from the DCS (Digital Combat Simulator) game on a web page. DCS is a real-time combat flight simulation game that can send various flight data to external applications. To achieve this, Lua scripts are used to collect the data, which is then sent to a Node.js-based server via TCP/IP. This server uses the WebSocket protocol to deliver the data to a web browser, which provides visual feedback to the user.
 **This project relies on chat-GPT4, with 90% of the code and documentation written by AI.**
 
 ##### 데이터 수집 및 전송
-
 
 1. **Lua 스크립트**: Lua는 경량 프로그래밍 언어로, DCS 같은 복잡한 게임에서 사용자 지정 스크립트를 통해 확장 기능을 구현할 수 있습니다. 이 프로젝트에서는 Lua 스크립트를 사용하여 비행 데이터(예: 지시 공기속도, 고도, 피치, 롤, 헤딩 등)를 실시간으로 수집합니다. 이 데이터는 게임 엔진에서 제공하는 API 함수를 호출하여 얻습니다. 예를 들어, `LoGetIndicatedAirSpeed()` 함수는 현재 항공기의 지시 공기속도를 반환합니다.
 
