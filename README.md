@@ -27,23 +27,27 @@ This project explains how to dynamically display real-time data from the DCS (Di
 **This project relies on chat-GPT4, with 90% of the code and documentation written by AI.**
 
 ##### 데이터 수집 및 전송
-##### Data Collection and Transmission
+
 
 1. **Lua 스크립트**: Lua는 경량 프로그래밍 언어로, DCS 같은 복잡한 게임에서 사용자 지정 스크립트를 통해 확장 기능을 구현할 수 있습니다. 이 프로젝트에서는 Lua 스크립트를 사용하여 비행 데이터(예: 지시 공기속도, 고도, 피치, 롤, 헤딩 등)를 실시간으로 수집합니다. 이 데이터는 게임 엔진에서 제공하는 API 함수를 호출하여 얻습니다. 예를 들어, `LoGetIndicatedAirSpeed()` 함수는 현재 항공기의 지시 공기속도를 반환합니다.
 
 2. **TCP/IP를 통한 전송**: 수집된 데이터는 문자열 형태로 포맷되어 TCP 소켓을 통해 Node.js 서버로 전송됩니다. TCP (Transmission Control Protocol)는 인터넷에서 데이터를 안정적으로, 순서대로, 에러 없이 전송하기 위한 표준입니다. 이 프로젝트에서 Lua 스크립트는 TCP 클라이언트 역할을 하며, Node.js 서버와의 연결을 유지하면서 지속적으로 데이터를 전송합니다.
 
-1. **Lua Script**: Lua is a lightweight programming language that can implement custom scripts for extended functionality in complex games like DCS. This project uses Lua scripts to collect flight data (e.g., indicated airspeed, altitude, pitch, roll, heading) in real time. The data is obtained by calling API functions provided by the game engine. For example, the `LoGetIndicatedAirSpeed()` function returns the current indicated airspeed of the aircraft.
+##### Data Collection and Transmission
+
+1 **Lua Script**: Lua is a lightweight programming language that can implement custom scripts for extended functionality in complex games like DCS. This project uses Lua scripts to collect flight data (e.g., indicated airspeed, altitude, pitch, roll, heading) in real time. The data is obtained by calling API functions provided by the game engine. For example, the `LoGetIndicatedAirSpeed()` function returns the current indicated airspeed of the aircraft.
 
 2. **Transmission via TCP/IP**: The collected data is formatted as a string and sent to a Node.js server via a TCP socket. TCP (Transmission Control Protocol) is a standard for reliably, sequentially, and error-free data transmission over the internet. In this project, the Lua script acts as a TCP client, continuously transmitting data while maintaining a connection with the Node.js server.
 
 
 ##### 데이터 수신 및 웹 브라우저로의 전달
-##### Receiving Data and Delivering it to the Web Browser
+
 
 1. **Node.js 서버**: 이 서버는 TCP 서버와 WebSocket 서버 두 가지 역할을 수행합니다. 먼저, TCP 서버는 DCS 게임으로부터 데이터를 수신합니다. 이 서버는 데이터를 받은 후 이를 처리하여 다수의 클라이언트에게 동시에 정보를 제공할 수 있도록 설계되었습니다.
 
 2. **WebSocket 프로토콜**: WebSocket은 웹 브라우저와 서버 간에 실시간 양방향 통신을 가능하게 하는 프로토콜입니다. 이 프로젝트에서 Node.js 서버는 WebSocket 서버로도 기능하며, TCP 서버로부터 받은 데이터를 웹 브라우저에 연결된 클라이언트들에게 실시간으로 전송합니다. WebSocket 연결을 통해 데이터는 거의 지연 없이 웹 브라우저에 전달되며, 이를 통해 사용자는 데이터의 변화를 거의 실시간으로 시각화된 형태로 볼 수 있습니다.
+   
+##### Receiving Data and Delivering it to the Web Browser
 
 1. **Node.js Server**: This server serves as both a TCP server and a WebSocket server. First, the TCP server receives data from the DCS game. After receiving the data, it processes it and is designed to provide information simultaneously to multiple clients.
 
@@ -183,7 +187,7 @@ end
 
 2. **Node.js 서버**: TCP 포트와 WebSocket 포트를 이용해 두 개의 서버를 구성합니다. TCP 서버는 DCS로부터 데이터를 받고, 이 데이터를 모든 연결된 WebSocket 클라이언트에게 전송합니다.
 
-2. **Node.js Server**: Configures two servers using TCP and WebSocket ports. The TCP server receives data from DCS and sends it to all connected WebSocket clients.
+ **Node.js Server**: Configures two servers using TCP and WebSocket ports. The TCP server receives data from DCS and sends it to all connected WebSocket clients.
 
 ```javascript
 const WebSocket = require('ws');
@@ -238,7 +242,7 @@ tcpServer.listen(TCP_PORT, () => {
 
 3. **HTML & JavaScript**: 웹 페이지는 WebSocket을 통해 서버로부터 데이터를 수신하고, 이를 가지고 SVG 요소를 동적으로 조정하여 계기판처럼 표현합니다. 예를 들어, `IAS` 값에 따라 삼각형 모양의 속도계가 회전합니다.
 
-3. **HTML & JavaScript**: The web page receives data from the server via WebSocket and dynamically adjusts SVG elements to represent a dashboard. For example, the triangle speedometer rotates based on the IAS value.
+ **HTML & JavaScript**: The web page receives data from the server via WebSocket and dynamically adjusts SVG elements to represent a dashboard. For example, the triangle speedometer rotates based on the IAS value.
 
 ```html
 <!DOCTYPE html>
