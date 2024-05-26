@@ -35,7 +35,7 @@ This project explains how to dynamically display real-time data from the DCS (Di
 
 ##### Data Collection and Transmission
 
-1 **Lua Script**: Lua is a lightweight programming language that can implement custom scripts for extended functionality in complex games like DCS. This project uses Lua scripts to collect flight data (e.g., indicated airspeed, altitude, pitch, roll, heading) in real time. The data is obtained by calling API functions provided by the game engine. For example, the `LoGetIndicatedAirSpeed()` function returns the current indicated airspeed of the aircraft.
+1. **Lua Script**: Lua is a lightweight programming language that can implement custom scripts for extended functionality in complex games like DCS. This project uses Lua scripts to collect flight data (e.g., indicated airspeed, altitude, pitch, roll, heading) in real time. The data is obtained by calling API functions provided by the game engine. For example, the `LoGetIndicatedAirSpeed()` function returns the current indicated airspeed of the aircraft.
 
 2. **Transmission via TCP/IP**: The collected data is formatted as a string and sent to a Node.js server via a TCP socket. TCP (Transmission Control Protocol) is a standard for reliably, sequentially, and error-free data transmission over the internet. In this project, the Lua script acts as a TCP client, continuously transmitting data while maintaining a connection with the Node.js server.
 
