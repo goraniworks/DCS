@@ -1,6 +1,6 @@
 ### DCS 게임 데이터 실시간 웹페이지 표현
 
-<iframe width="560" height="315" src="https://youtu.be/8s-PyVehyP4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[YouTube 동영상 보기](https://youtu.be/8s-PyVehyP4)
 
 #### 목차
 - [목차](#목차)
@@ -26,7 +26,7 @@
 
 2. **WebSocket 프로토콜**: WebSocket은 웹 브라우저와 서버 간에 실시간 양방향 통신을 가능하게 하는 프로토콜입니다. 이 프로젝트에서 Node.js 서버는 WebSocket 서버로도 기능하며, TCP 서버로부터 받은 데이터를 웹 브라우저에 연결된 클라이언트들에게 실시간으로 전송합니다. WebSocket 연결을 통해 데이터는 거의 지연 없이 웹 브라우저에 전달되며, 이를 통해 사용자는 데이터의 변화를 거의 실시간으로 시각화된 형태로 볼 수 있습니다.
 
-![구성도](assets\images\favicon\DCS01.png)
+![구성도](https://goraniworks.github.io/assets/images/favicon/DCS01.png)
 
 #### [실행하는 법](#실행하는-법)
 
