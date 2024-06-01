@@ -3,6 +3,7 @@
 
 [YouTube 동영상 보기](https://youtu.be/8s-PyVehyP4)
 
+[![Watch the video](https://img.youtube.com/vi/8s-PyVehyP4/hqdefault.jpg)](https://www.youtube.com/watch?v=8s-PyVehyP4&t=27s)
 #### 목차
 - [목차](#목차)
 - [프로젝트의 기본적인 원리](#프로젝트의-기본적인-원리)
